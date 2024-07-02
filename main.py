@@ -67,12 +67,12 @@ print(welcome_msg)
 # 主循环
 while True:
     if match_and_click(template3, coordinates['image3.png'], '风控页面', thresholds['image3.png']):
-        # 暂停10秒
+        # 暂停15秒
         current_time = datetime.now().strftime("[%Y-%m-%d %H:%M:%S]")
-        print(f"{current_time} 检测到被风控！休眠10秒")
-        time.sleep(10)
+        print(f"{current_time} 检测到被风控！休眠15秒")
+        time.sleep(15)
     
     match_and_click(template1, coordinates['image1.png'], '登录主页面', thresholds['image1.png'])
-    time.sleep(0.5)  # 等待0.5秒，确保点击操作完成
+    time.sleep(1)  # 等待1秒，确保点击操作完成
     match_and_click(template2, coordinates['image2.png'], '维护提示', thresholds['image2.png'])
-    time.sleep(3.5)  # 等待3.5秒
+    time.sleep(6.5)  # 等待6.5秒
