@@ -62,4 +62,4 @@ while True:
     match_and_click(template1, coordinates['image1.png'], 'image1.png', thresholds['image1.png'])
     time.sleep(0.5)  # 等待0.5秒，确保点击操作完成
     match_and_click(template2, coordinates['image2.png'], 'image2.png', thresholds['image2.png'])
-    time.sleep(11.5)  # 等待11.5秒
+    time.sleep(3.5)  # 等待3.5秒

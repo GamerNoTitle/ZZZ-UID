@@ -30,7 +30,7 @@ pip install -r requirements.txt
 python main.py
 ```
 
-放着就好了，程序设置为每分钟点击5次，每次间隔12秒（因为在做这个东西的时候发现跟崩铁不一样，米忽悠这次加了风控，个人测下来大概是`5次/分钟`，所以设置的是12秒，如果要修改请自己改主循环里面的时间
+放着就好了，程序设置为每分钟点击5次，每次间隔12秒（因为在做这个东西的时候发现跟崩铁不一样，米忽悠这次加了风控，~~个人测下来大概是`5次/分钟`，所以设置的是12秒，如果要修改请自己改主循环里面的时间~~ 根据多方测试，最终本程序决定设定为4秒一循环，但是如果触发了风控，仍然会等待10秒
 
 ```python
 # 主循环
@@ -44,7 +44,8 @@ while True:
     match_and_click(template1, coordinates['image1.png'], 'image1.png', thresholds['image1.png'])
     time.sleep(0.5)  # 等待0.5秒，确保点击操作完成
     match_and_click(template2, coordinates['image2.png'], 'image2.png', thresholds['image2.png'])
-    time.sleep(11.5)  # 等待11.5秒
+    time.sleep(3.5)  # 等待3.5秒
+
 ```
 
 **不建议修改第一个`time.sleep(0.5)`，点击后需要这个时间来弹出提示窗口**
