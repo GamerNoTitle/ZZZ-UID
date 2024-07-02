@@ -49,7 +49,7 @@ jobs:
           tag_name: ${{ github.run_id }}
           release_name: Release ${{ github.run_number }} - ${{ github.run_id }}
           draft: false
-          prerelease: false
+          prerelease: true
 
       - name: Upload release asset
         id: upload-release-asset
@@ -59,5 +59,5 @@ jobs:
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: ./ZZZ-UID.zip
-          asset_name: ZZZ-UID-${{ github.run_id }}.zip
+          asset_name: ZZZ-UID.zip
           asset_content_type: application/zip
