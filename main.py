@@ -4,6 +4,17 @@ import pyautogui
 import time
 from datetime import datetime
 
+welcome_msg = '''
+ _______  _______  _______         _   _  _  ___   
+(_____  )(_____  )(_____  )       ( ) ( )(_)(  _`\ 
+     /'/'     /'/'     /'/'______ | | | || || | ) |
+   /'/'     /'/'     /'/' (______)| | | || || | | )
+ /'/'___  /'/'___  /'/'___        | (_) || || |_) |
+(_______)(_______)(_______)       (_____)(_)(____/'
+
+       https://github.com/GamerNoTitle/ZZZ-UID
+'''
+
 # 加载模板图像
 template1 = cv2.imread('img/image1.png', cv2.IMREAD_GRAYSCALE)
 template2 = cv2.imread('img/image2.png', cv2.IMREAD_GRAYSCALE)
@@ -38,28 +49,30 @@ def match_and_click(template, coord, template_name, threshold):
     min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(result)
 
     current_time = datetime.now().strftime("[%Y-%m-%d %H:%M:%S]")
-    print(f"{current_time} Matching {template_name}: Max value = {max_val}")
+    print(f"{current_time} 正在尝试匹配 {template_name}，最大匹配相似度 = {max_val}")
 
     if max_val >= threshold:
-        print(f"{current_time} Template {template_name} matched with a value of {max_val}. Clicking at {coord}.")
+        print(f"{current_time} 当前页面成功以最大匹配相似度 {max_val} 匹配上了 {template_name}，正在点击位置 {coord}")
         
         # 移动鼠标并点击
         pyautogui.moveTo(coord[0], coord[1])
         pyautogui.click()
         return True
     else:
-        print(f"{current_time} Template {template_name} did not match. Max value: {max_val}")
+        print(f"{current_time} 当前页面看起来不像 {template_name}，最大匹配相似度为 {max_val}")
         return False
+
+print(welcome_msg)
 
 # 主循环
 while True:
-    if match_and_click(template3, coordinates['image3.png'], 'image3.png', thresholds['image3.png']):
+    if match_and_click(template3, coordinates['image3.png'], '风控页面', thresholds['image3.png']):
         # 暂停10秒
         current_time = datetime.now().strftime("[%Y-%m-%d %H:%M:%S]")
-        print(f"{current_time} Sleeping for 10 seconds.")
+        print(f"{current_time} 检测到被风控！休眠10秒")
         time.sleep(10)
     
-    match_and_click(template1, coordinates['image1.png'], 'image1.png', thresholds['image1.png'])
+    match_and_click(template1, coordinates['image1.png'], '登录主页面', thresholds['image1.png'])
     time.sleep(0.5)  # 等待0.5秒，确保点击操作完成
-    match_and_click(template2, coordinates['image2.png'], 'image2.png', thresholds['image2.png'])
+    match_and_click(template2, coordinates['image2.png'], '维护提示', thresholds['image2.png'])
     time.sleep(3.5)  # 等待3.5秒
