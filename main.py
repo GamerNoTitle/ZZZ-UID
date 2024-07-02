@@ -43,10 +43,6 @@ def match_and_click(template, coord, template_name, threshold):
     if max_val >= threshold:
         print(f"{current_time} Template {template_name} matched with a value of {max_val}. Clicking at {coord}.")
         
-        # 计算匹配区域的中心点
-        center_x = max_loc[0] + int(template.shape[1] / 2)
-        center_y = max_loc[1] + int(template.shape[0] / 2)
-
         # 移动鼠标并点击
         pyautogui.moveTo(coord[0], coord[1])
         pyautogui.click()
