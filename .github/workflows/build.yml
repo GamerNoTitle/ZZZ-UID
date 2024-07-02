@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - master
-  workflow_dispatch: 
+  workflow_dispatch:
 
 jobs:
   build:
@@ -27,17 +27,11 @@ jobs:
 
       - name: Build with Nuitka
         run: |
-          nuitka --standalone --onefile --output-dir=dist .\main.py
-
-      - name: Rename executable
-        run: |
-          mv dist\main.exe dist\ZZZ-UID.exe
+          nuitka --standalone --onefile --output-filename=ZZZ-UID.exe .\main.py
 
       - name: Archive executable and images
         run: |
-          mkdir dist\img
-          copy .\img\* dist\img\
-          Compress-Archive -Path dist\ZZZ-UID.exe, dist\img -DestinationPath dist\ZZZ-UID.zip
+          Compress-Archive -Path .\ZZZ-UID.exe, .\img -DestinationPath ZZZ-UID.zip
 
       - name: Create release
         id: create_release
@@ -57,6 +51,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./dist/ZZZ-UID.zip
+          asset_path: ./ZZZ-UID.zip
           asset_name: ZZZ-UID-${{ github.run_id }}.zip
           asset_content_type: application/zip
