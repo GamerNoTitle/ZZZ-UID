@@ -75,4 +75,4 @@ while True:
     match_and_click(template1, coordinates['image1.png'], '登录主页面', thresholds['image1.png'])
     time.sleep(1)  # 等待1秒，确保点击操作完成
     match_and_click(template2, coordinates['image2.png'], '维护提示', thresholds['image2.png'])
-    time.sleep(6.5)  # 等待6.5秒
+    time.sleep(6.6)  # 等待6.6秒
