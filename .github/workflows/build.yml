@@ -3,8 +3,8 @@ name: Build and Release
 on:
   push:
     branches:
-      - main
-  workflow_dispatch:
+      - master
+  workflow_dispatch: 
 
 jobs:
   build:
@@ -28,6 +28,10 @@ jobs:
       - name: Build with Nuitka
         run: |
           nuitka --standalone --onefile --output-dir=dist .\main.py
+
+      - name: Rename executable
+        run: |
+          mv dist\main.exe dist\ZZZ-UID.exe
 
       - name: Archive executable and images
         run: |
