@@ -2,6 +2,8 @@
 
 只是一个帮我抢UID的小程序罢了；**禁止用于违法目的！！！**
 
+Telegram频道：https://t.me/DohnaNyan
+
 > [!IMPORTANT]
 > 因为STAR来得太快了，在这里强调一点：禁止宣传！！！否则删库跑路！！！
 
