@@ -25,9 +25,16 @@ jobs:
           pip install -r requirements.txt
           pip install nuitka
 
+
+      - name: Set environment variable for Nuitka
+        run: |
+          $env:NUITKA_ONEFILE_TEMP=true
+          $env:NUITKA_RECURSIVE=true
+
       - name: Build with Nuitka
         run: |
-          nuitka --standalone --onefile --output-filename=ZZZ-UID.exe .\main.py
+          nuitka --standalone --onefile --assume-yes-for-downloads --output-filename=ZZZ-UID.exe .\main.py
+
 
       - name: Archive executable and images
         run: |
