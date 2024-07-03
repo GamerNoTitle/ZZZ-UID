@@ -2,6 +2,8 @@ import cv2
 import numpy as np
 import pyautogui
 import time
+import ctypes
+import sys
 from datetime import datetime
 
 welcome_msg = '''
@@ -14,6 +16,23 @@ welcome_msg = '''
 
        https://github.com/GamerNoTitle/ZZZ-UID
 '''
+
+# 检查是否以管理员权限运行
+def is_admin():
+    try:
+        return ctypes.windll.shell32.IsUserAnAdmin()
+    except:
+        return False
+
+# 以管理员权限重新运行脚本
+def run_as_admin():
+    ctypes.windll.shell32.ShellExecuteW(None, "runas", sys.executable, __file__, None, 1)
+
+# 如果不是管理员，则重新以管理员权限运行脚本
+if not is_admin():
+    print("Requesting admin privileges...")
+    run_as_admin()
+    sys.exit()
 
 # 加载模板图像
 template1 = cv2.imread('img/image1.png', cv2.IMREAD_GRAYSCALE)
@@ -52,27 +71,43 @@ def match_and_click(template, coord, template_name, threshold):
     print(f"{current_time} 正在尝试匹配 {template_name}，最大匹配相似度 = {max_val}")
 
     if max_val >= threshold:
-        print(f"{current_time} 当前页面成功以最大匹配相似度 {max_val} 匹配上了 {template_name}，正在点击位置 {coord}")
-        
+        # 按比例调整坐标
+        adjusted_coord = adjust_coordinates(coord)
+        print(f"{current_time} 当前页面成功以最大匹配相似度 {max_val} 匹配上了 {template_name}，正在点击位置 {adjusted_coord}")
         # 移动鼠标并点击
-        pyautogui.moveTo(coord[0], coord[1])
+        pyautogui.moveTo(adjusted_coord[0], adjusted_coord[1])
         pyautogui.click()
         return True
     else:
         print(f"{current_time} 当前页面看起来不像 {template_name}，最大匹配相似度为 {max_val}")
         return False
 
-print(welcome_msg)
+# 按比例调整坐标
+def adjust_coordinates(coord):
+    base_width, base_height = 1920, 1080
+    adjusted_x = int(coord[0] * screen_width / base_width)
+    adjusted_y = int(coord[1] * screen_height / base_height)
+    return (adjusted_x, adjusted_y)
 
-# 主循环
-while True:
-    if match_and_click(template3, coordinates['image3.png'], '风控页面', thresholds['image3.png']):
-        # 暂停15秒
+if __name__ == '__main__':
+    # 欢迎信息
+    print(welcome_msg)
+    # 检测屏幕分辨率
+    screen_width, screen_height = pyautogui.size()
+    current_time = datetime.now().strftime("[%Y-%m-%d %H:%M:%S]")
+    print(f"{current_time} 检测到屏幕分辨率: {screen_width}x{screen_height}")
+    if screen_width/screen_height != 1920/1080:
         current_time = datetime.now().strftime("[%Y-%m-%d %H:%M:%S]")
-        print(f"{current_time} 检测到被风控！休眠15秒")
-        time.sleep(15)
-    
-    match_and_click(template1, coordinates['image1.png'], '登录主页面', thresholds['image1.png'])
-    time.sleep(1)  # 等待1秒，确保点击操作完成
-    match_and_click(template2, coordinates['image2.png'], '维护提示', thresholds['image2.png'])
-    time.sleep(6.6)  # 等待6.6秒
+        print(f'{current_time} 不支持当前分辨率：{screen_width}x{screen_height}！请使用16:9的分辨率再打开本程序！')
+    # 主循环
+    while True:
+        if match_and_click(template3, coordinates['image3.png'], '风控页面', thresholds['image3.png']):
+            # 暂停15秒
+            current_time = datetime.now().strftime("[%Y-%m-%d %H:%M:%S]")
+            print(f"{current_time} 检测到被风控！休眠15秒")
+            time.sleep(15)
+        
+        match_and_click(template1, coordinates['image1.png'], '登录主页面', thresholds['image1.png'])
+        time.sleep(1)  # 等待1秒，确保点击操作完成
+        match_and_click(template2, coordinates['image2.png'], '维护提示', thresholds['image2.png'])
+        time.sleep(6.6)  # 等待6.6秒
