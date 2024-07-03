@@ -36,12 +36,24 @@ if not is_admin():
     run_as_admin()
     sys.exit()
 
-# 加载模板图像
-template1 = cv2.imread('img/image1.png', cv2.IMREAD_GRAYSCALE)
-template2 = cv2.imread('img/image2.png', cv2.IMREAD_GRAYSCALE)
-template3 = cv2.imread('img/image3.png', cv2.IMREAD_GRAYSCALE)
-template4 = cv2.imread('img/image4.png', cv2.IMREAD_GRAYSCALE)
+# 调整模板图片大小
+def resize_template(template, screen_width, screen_height):
+    base_width, base_height = 1920, 1080
+    scale_x = screen_width / base_width
+    scale_y = screen_height / base_height
+    new_width = int(template.shape[1] * scale_x)
+    new_height = int(template.shape[0] * scale_y)
+    resized_template = cv2.resize(template, (new_width, new_height))
+    return resized_template
 
+# 检测屏幕分辨率
+screen_width, screen_height = pyautogui.size()
+
+# 加载模板图像
+template1 = resize_template(cv2.imread('img/image1.png', cv2.IMREAD_GRAYSCALE), screen_width, screen_height)
+template2 = resize_template(cv2.imread('img/image2.png', cv2.IMREAD_GRAYSCALE), screen_width, screen_height)
+template3 = resize_template(cv2.imread('img/image3.png', cv2.IMREAD_GRAYSCALE), screen_width, screen_height)
+template4 = resize_template(cv2.imread('img/image4.png', cv2.IMREAD_GRAYSCALE), screen_width, screen_height)
 
 # 获取模板图像的尺寸
 w1, h1 = template1.shape[::-1]
@@ -99,8 +111,6 @@ def adjust_coordinates(coord):
 if __name__ == '__main__':
     # 欢迎信息
     print(welcome_msg)
-    # 检测屏幕分辨率
-    screen_width, screen_height = pyautogui.size()
     current_time = datetime.now().strftime("[%Y-%m-%d %H:%M:%S]")
     print(f"{current_time} 检测到屏幕分辨率: {screen_width}x{screen_height}")
     if screen_width/screen_height != 1920/1080:

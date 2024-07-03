@@ -2,3 +2,6 @@ dist
 venv
 *.exe
 *.zip
+main.dist
+main.build
+main.*build
