@@ -14,7 +14,8 @@ welcome_msg = '''
  /'/'___  /'/'___  /'/'___        | (_) || || |_) |
 (_______)(_______)(_______)       (_____)(_)(____/'
 
-       https://github.com/GamerNoTitle/ZZZ-UID
+    https://github.com/GamerNoTitle/ZZZ-UID
+    Telegram群组（有入群验证）：https://t.me/DohnaNyan
 '''
 
 # 检查是否以管理员权限运行
@@ -30,7 +31,8 @@ def run_as_admin():
 
 # 如果不是管理员，则重新以管理员权限运行脚本
 if not is_admin():
-    print("Requesting admin privileges...")
+    current_time = datetime.now().strftime("[%Y-%m-%d %H:%M:%S]")
+    print(f"{current_time} 正在获取管理员权限……")
     run_as_admin()
     sys.exit()
 

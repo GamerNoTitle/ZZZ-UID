@@ -33,7 +33,7 @@ jobs:
 
       - name: Build with Nuitka
         run: |
-          nuitka --standalone --onefile --assume-yes-for-downloads --output-filename=ZZZ-UID.exe .\main.py
+          nuitka --standalone --onefile --assume-yes-for-downloads --output-filename=ZZZ-UID.exe --windows-uac-admin .\main.py
 
 
       - name: Archive executable and images
