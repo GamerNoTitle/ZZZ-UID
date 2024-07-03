@@ -40,23 +40,28 @@ if not is_admin():
 template1 = cv2.imread('img/image1.png', cv2.IMREAD_GRAYSCALE)
 template2 = cv2.imread('img/image2.png', cv2.IMREAD_GRAYSCALE)
 template3 = cv2.imread('img/image3.png', cv2.IMREAD_GRAYSCALE)
+template4 = cv2.imread('img/image4.png', cv2.IMREAD_GRAYSCALE)
+
 
 # 获取模板图像的尺寸
 w1, h1 = template1.shape[::-1]
 w2, h2 = template2.shape[::-1]
 w3, h3 = template3.shape[::-1]
+w4, h4 = template4.shape[::-1]
 
 # 设置对应的坐标和匹配阈值
 coordinates = {
     'image1.png': (960, 540),
     'image2.png': (700, 630),
-    'image3.png': (960, 630)
+    'image3.png': (960, 630),
+    'image4.png': (960, 630)
 }
 
 thresholds = {
     'image1.png': 0.5,
     'image2.png': 0.8,
-    'image3.png': 0.9
+    'image3.png': 0.9,
+    'image4.png': 0.9
 }
 
 def match_and_click(template, coord, template_name, threshold):
@@ -113,3 +118,6 @@ if __name__ == '__main__':
         time.sleep(1)  # 等待1秒，确保点击操作完成
         match_and_click(template2, coordinates['image2.png'], '维护提示', thresholds['image2.png'])
         time.sleep(6.6)  # 等待6.6秒
+        if match_and_click(template4, coordinates['image4.png'], '网络超时提示', thresholds['image4.png']):
+            current_time = datetime.now().strftime("[%Y-%m-%d %H:%M:%S]")
+            print(f"{current_time} 检测到出现网络问题，请保持网络通畅！")
